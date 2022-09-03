@@ -35,8 +35,8 @@ export class AuthService {
           // Unique error code
           throw new ForbiddenException('This email is already taken');
         }
-        throw error;
       }
+      throw error;
     }
   }
 
