@@ -17,6 +17,12 @@ import { Csrf, Msg } from './interfaces/auth.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get('/csrf')
+  getCsrfToken(@Req() req: Request): Csrf {
+    // csrf tokenを生成
+    return { csrfToken: req.csrfToken() };
+  }
+
   @Post('signup')
   signUp(@Body() dto: AuthDto): Promise<Msg> {
     // @Bodyでbodyの内容を取得できる

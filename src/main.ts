@@ -20,15 +20,30 @@ async function bootstrap() {
   // client <-- server response: set-cookie: Secret(csrf tokenを生成したsecret key)httpOnly cookie
   // serverからclientにset-cookieされるので、それ以降requestした時はrequestの中にcookieが含まれる
   // 正規のサイトからrequest GET:/auth/csrfした時はcsrf tokenをresponseに返す
-  // httpOnlyにするとclient側のjsから読み込めないようになる
   // client --> server POST: /auth/login
   // client <-- server set-cookie JWT
   // client --> server POST: /task
   // cookie: Secret, JWT, request header: Csrf Token
   // csrf tokenのhashが一致すれば正規のサイトからのrequestだと認証しDBに追加
 
-  // SameSite = lax: default --> Cookieの送受信ができないCSRF対策でChromeが対策している
-  // SameSite = none cross domainのclient, serverでcookieの送受信が可能。Secure: trueにするとhttps通信のみcookieが使用可能
-  await app.listen(3005);
+  app.use(
+    csurf({
+      cookie: {
+        // client側のjsから読み込めないようになる
+        httpOnly: true,
+        // SameSite = lax: default --> Cookieの送受信ができないCSRF対策でChromeが対策している
+        // SameSite = none cross domainのclient, serverでcookieの送受信が可能。
+        sameSite: 'none',
+        // Secure: trueにするとhttps通信のみcookieが使用可能
+        // todo: trueにする
+        secure: false,
+      },
+      value: (req: Request) => {
+        // clientからheaderで送られてきたcsrf-tokenを取得して一致するか確認
+        return req.header('csrf-token');
+      },
+    }),
+  );
+  await app.listen(process.env.PORT || 3005);
 }
 bootstrap();
