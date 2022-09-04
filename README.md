@@ -21,6 +21,20 @@
 </p>
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+  
+## Sequence
+cookieのJWT認証とCSRF対策
+
+```mermaid
+sequenceDiagram
+  autonumber
+  Client->>+Server: GET /auth/csrf
+  Server-->>-Client: set-cookie: Secret, httpOnly cookie
+  Client->>+Server: POST /auth/login
+  Server-->>-Client: set-cookie: JWT httpOnly cookie
+  Client->>+Server: Post /task
+  Note right of Client: cookie: JWT<br>httpOnly cookie<br>cookie: Secret<br>httpOnly cookie<br>header: Csrf Token
+```
 
 ## Description
 
