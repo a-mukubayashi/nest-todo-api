@@ -60,6 +60,7 @@ export class AuthService {
       email,
     };
     const secret = this.config.get('JWT_SECRET');
+    // jwtを生成
     const accessToken = await this.jwt.signAsync(payload, {
       expiresIn: '5m', // 有効期限5分
       secret,

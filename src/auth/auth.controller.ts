@@ -48,6 +48,7 @@ export class AuthController {
     };
   }
 
+  // status code 200
   @HttpCode(HttpStatus.OK)
   @Post('/logout')
   logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Msg {

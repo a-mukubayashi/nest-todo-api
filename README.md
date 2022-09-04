@@ -26,6 +26,26 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+- prisma の schema を変更した場合
+
+```
+npx prisma migrate dev
+```
+
+- prisma の studio を立ち上げる
+
+```
+npx prisma studio
+```
+
+--> http://localhost:5555
+
+- 型の再生成
+
+```
+npx prisma generate
+```
+
 ## Installation
 
 ```bash
